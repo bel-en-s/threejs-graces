@@ -1,9 +1,12 @@
 /////////////////////////////////////////////////////////////////////////
 ///// IMPORT
 import './main.css'
+import { PlaneGeometry, Mesh, MeshBasicMaterial } from 'three';
 import { Clock, Scene, LoadingManager, WebGLRenderer, sRGBEncoding, Group, PerspectiveCamera, DirectionalLight, PointLight, MeshPhongMaterial } from 'three'
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js'
+import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
+import { TextureLoader } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 
 /////////////////////////////////////////////////////////////////////////
@@ -15,7 +18,7 @@ const loadingManager = new LoadingManager()
 loadingManager.onLoad = function() {
 
     document.querySelector(".main-container").style.visibility = 'visible'
-    document.querySelector("body").style.overflow = 'auto'
+    document.querySelector("body").style.overflow = 'block'
 
     const yPosition = {y: 0}
     
@@ -99,32 +102,82 @@ window.addEventListener('resize', () => {
     renderer2.setPixelRatio(Math.min(window.devicePixelRatio, 1))
 })
 
+
+const hdrFilePath = 'models/gltf/fondo.hdr';
+
+// Cargar el HDR
+const rgbeLoader = new RGBELoader(loadingManager);
+rgbeLoader.load(hdrFilePath, (texture) => {
+    texture.mapping = THREE.EquirectangularReflectionMapping;
+
+    // Aplicar el HDR como fondo y entorno
+    scene.background = texture; // Fondo visible
+    scene.environment = texture; // Iluminación global para materiales físicos
+}, undefined, (err) => {
+    console.error('Error al cargar el HDR:', err);
+});
 /////////////////////////////////////////////////////////////////////////
 ///// SCENE LIGHTS
-const sunLight = new DirectionalLight(0x435c72, 0.08)
-sunLight.position.set(-100,0,-100)
+const sunLight = new DirectionalLight(0x435c72, 0.5)
+sunLight.position.set(0, 0, 0)
 scene.add(sunLight)
 
-const fillLight = new PointLight(0x88b2d9, 2.7, 4, 3)
-fillLight.position.set(30,3,1.8)
+const fillLight = new PointLight(0xffffff, 10, 20, 10)
+fillLight.position.set(0, 0, 0)
 scene.add(fillLight)
 
+const glossyLight = new PointLight(0x90ee90, 8, 30, 15)
+glossyLight.position.set(0, 0, 0)
+scene.add(glossyLight)
+
+const fantasyLight = new PointLight(0x7a00e6, 6, 20, 10)
+fantasyLight.position.set(0, 0, 0)
+scene.add(fantasyLight)
+const planeGeometry = new PlaneGeometry(12, 6); // Adjust size as necessary
+
+const planeTexture = new TextureLoader().load('models/gltf/fondo1.jpg', (texture) => {
+    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+    texture.repeat.set(2, 2); // Adjust texture repeat as necessary
+});
+
+const planeMaterial = new MeshBasicMaterial({
+    map: planeTexture,
+    transparent: false,
+    depthTest: true,
+    depthWrite: true,
+    polygonOffset: true,
+    polygonOffsetFactor: 2,
+    polygonOffsetUnits: -2,
+});
+
+const plane = new Mesh(planeGeometry, planeMaterial);
+plane.position.set(0, 2, -5); // Adjust position to avoid overlap with other objects
+scene.add(plane);
 /////////////////////////////////////////////////////////////////////////
 ///// LOADING GLB/GLTF MODEL FROM BLENDER
-loader.load('models/gltf/graces-draco2.glb', function (gltf) {
+loader.load('models/gltf/landing.glb', function (gltf) { //cargar cualquier modelo
+
+    if (window.innerWidth < 768) {
+        gltf.scene.scale.set(3,3,3)
+        gltf.scene.position.set(0,1.5,0)
+    } else {
+        gltf.scene.scale.set(10,10,10)
+    }
+    gltf.scene.rotation.set(0,0,0)
 
     gltf.scene.traverse((obj) => {
         if (obj.isMesh) {
             oldMaterial = obj.material
             obj.material = new MeshPhongMaterial({
-                shininess: 45 
+                color: 0x000000, // Black color
+                shininess: 300, // High shininess for glossy effect
+                reflectivity: 1, // High reflectivity
             })
         }
     })
     scene.add(gltf.scene)
     clearScene()
 })
-
 function clearScene(){
     oldMaterial.dispose()
     renderer.renderLists.dispose()
@@ -144,29 +197,29 @@ function introAnimation() {
 
 //////////////////////////////////////////////////
 //// CLICK LISTENERS
-document.getElementById('aglaea').addEventListener('click', () => {
-    document.getElementById('aglaea').classList.add('active')
-    document.getElementById('euphre').classList.remove('active')
-    document.getElementById('thalia').classList.remove('active')
-    document.getElementById('content').innerHTML = 'She was venerated as the goddess of beauty, splendor, glory, magnificence, and adornment. She is the youngest of the Charites according to Hesiod. Aglaea is one of three daughters of Zeus and either the Oceanid Eurynome, or of Eunomia, the goddess of good order and lawful conduct.'
-    animateCamera({ x: 1.9, y: 2.7, z: 2.7 },{ y: 1.1 })
-})
+// document.getElementById('aglaea').addEventListener('click', () => {
+//     document.getElementById('aglaea').classList.add('active')
+//     document.getElementById('euphre').classList.remove('active')
+//     document.getElementById('thalia').classList.remove('active')
+//     document.getElementById('content').innerHTML = 'She was venerated as the goddess of beauty, splendor, glory, magnificence, and adornment. She is the youngest of the Charites according to Hesiod. Aglaea is one of three daughters of Zeus and either the Oceanid Eurynome, or of Eunomia, the goddess of good order and lawful conduct.'
+//     animateCamera({ x: 1.9, y: 2.7, z: 2.7 },{ y: 1.1 })
+// })
 
-document.getElementById('thalia').addEventListener('click', () => {
-    document.getElementById('thalia').classList.add('active')
-    document.getElementById('aglaea').classList.remove('active')
-    document.getElementById('euphre').classList.remove('active')
-    document.getElementById('content').innerHTML = 'Thalia, in Greek religion, one of the nine Muses, patron of comedy; also, according to the Greek poet Hesiod, a Grace (one of a group of goddesses of fertility). She is the mother of the Corybantes, celebrants of the Great Mother of the Gods, Cybele, the father being Apollo, a god related to music and dance. In her hands she carried the comic mask and the shepherd’s staff.'
-    animateCamera({ x: -0.9, y: 3.1, z: 2.6 },{ y: -0.1 })
-})
+// document.getElementById('thalia').addEventListener('click', () => {
+//     document.getElementById('thalia').classList.add('active')
+//     document.getElementById('aglaea').classList.remove('active')
+//     document.getElementById('euphre').classList.remove('active')
+//     document.getElementById('content').innerHTML = 'Thalia, in Greek religion, one of the nine Muses, patron of comedy; also, according to the Greek poet Hesiod, a Grace (one of a group of goddesses of fertility). She is the mother of the Corybantes, celebrants of the Great Mother of the Gods, Cybele, the father being Apollo, a god related to music and dance. In her hands she carried the comic mask and the shepherd’s staff.'
+//     animateCamera({ x: -0.9, y: 3.1, z: 2.6 },{ y: -0.1 })
+// })
 
-document.getElementById('euphre').addEventListener('click', () => {
-    document.getElementById('euphre').classList.add('active')
-    document.getElementById('aglaea').classList.remove('active')
-    document.getElementById('thalia').classList.remove('active')
-    document.getElementById('content').innerHTML = 'Euphrosyne is a Goddess of Good Cheer, Joy and Mirth. Her name is the female version of a Greek word euphrosynos, which means "merriment". The Greek poet Pindar states that these goddesses were created to fill the world with pleasant moments and good will. Usually the Charites attended the goddess of beauty Aphrodite.'
-    animateCamera({ x: -0.4, y: 2.7, z: 1.9 },{ y: -0.6 })
-})
+// document.getElementById('euphre').addEventListener('click', () => {
+//     document.getElementById('euphre').classList.add('active')
+//     document.getElementById('aglaea').classList.remove('active')
+//     document.getElementById('thalia').classList.remove('active')
+//     document.getElementById('content').innerHTML = 'Euphrosyne is a Goddess of Good Cheer, Joy and Mirth. Her name is the female version of a Greek word euphrosynos, which means "merriment". The Greek poet Pindar states that these goddesses were created to fill the world with pleasant moments and good will. Usually the Charites attended the goddess of beauty Aphrodite.'
+//     animateCamera({ x: -0.4, y: 2.7, z: 1.9 },{ y: -0.6 })
+// })
 
 /////////////////////////////////////////////////////////////////////////
 //// ANIMATE CAMERA
@@ -206,16 +259,21 @@ function rendeLoop() {
 
     const parallaxY = cursor.y
     fillLight.position.y -= ( parallaxY *9 + fillLight.position.y -2) * deltaTime
+    sunLight.position.y -= (parallaxY *9 + sunLight.position.y -2) * deltaTime
+    glossyLight.position.y -= (parallaxY *9 + glossyLight.position.y -2) * deltaTime
+    fantasyLight.position.y -= (parallaxY *9 + fantasyLight.position.y -2) * deltaTime
 
     const parallaxX = cursor.x
     fillLight.position.x += (parallaxX *8 - fillLight.position.x) * 2 * deltaTime
+    sunLight.position.x += (parallaxX *8 - sunLight.position.x) * 2 * deltaTime
+    glossyLight.position.x += (parallaxX *8 - glossyLight.position.x) * 2 * deltaTime
+    fantasyLight.position.x += (parallaxX *8 - fantasyLight.position.x) * 2 * deltaTime
 
     cameraGroup.position.z -= (parallaxY/3 + cameraGroup.position.z) * 2 * deltaTime
     cameraGroup.position.x += (parallaxX/3 - cameraGroup.position.x) * 2 * deltaTime
 
     requestAnimationFrame(rendeLoop)
 }
-
 rendeLoop()
 
 //////////////////////////////////////////////////
@@ -225,6 +283,14 @@ document.addEventListener('mousemove', (event) => {
 
     cursor.x = event.clientX / window.innerWidth -0.5
     cursor.y = event.clientY / window.innerHeight -0.5
+
+    handleCursor(event)
+}, false)
+document.addEventListener('touchmove', (event) => {
+    event.preventDefault()
+
+    cursor.x = event.touches[0].clientX / window.innerWidth -0.5
+    cursor.y = event.touches[0].clientY / window.innerHeight -0.5
 
     handleCursor(event)
 }, false)
@@ -255,20 +321,23 @@ const customCursor = document.querySelector('.cursor')
 function update(e) {
     const span = this.querySelector('span')
     
-    if(e.type === 'mouseleave') {
+    if(e.type === 'mouseleave' || e.type === 'touchend') {
         span.style.cssText = ''
     } else {
         const { offsetX: x, offsetY: y } = e,{ offsetWidth: width, offsetHeight: height } = this,
-        walk = 20, xWalk = (x / width) * (walk * 2) - walk, yWalk = (y / height) * (walk * 2) - walk
+        walk = 10, xWalk = (x / width) * (walk * 2) - walk, yWalk = (y / height) * (walk * 2) - walk
         span.style.cssText = `transform: translate(${xWalk}px, ${yWalk}px);`
     }
 }
 
 const handleCursor = (e) => {
-    const x = e.clientX
-    const y =  e.clientY
+    const x = e.clientX || e.touches[0].clientX
+    const y =  e.clientY || e.touches[0].clientY
     customCursor.style.cssText =`left: ${x}px; top: ${y}px;`
 }
 
 btn.forEach(b => b.addEventListener('mousemove', update))
 btn.forEach(b => b.addEventListener('mouseleave', update))
+btn.forEach(b => b.addEventListener('touchmove', update))
+btn.forEach(b => b.addEventListener('touchend', update))
+
