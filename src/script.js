@@ -132,12 +132,12 @@ scene.add(glossyLight)
 
 const fantasyLight = new PointLight(0x7a00e6, 6, 20, 10)
 fantasyLight.position.set(0, 0, 0)
-scene.add(fantasyLight)
-const planeGeometry = new PlaneGeometry(12, 6); // Adjust size as necessary
+scene.add(fantasyLight);
+const planeGeometry = new PlaneGeometry(window.innerWidth, window.innerHeight);
 
-const planeTexture = new TextureLoader().load('models/gltf/fondo1.jpg', (texture) => {
+const planeTexture = new TextureLoader().load('textures/1.jpg', (texture) => {
     texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-    texture.repeat.set(2, 2); // Adjust texture repeat as necessary
+    texture.repeat.set(window.innerWidth / texture.image.width, window.innerHeight / texture.image.height);
 });
 
 const planeMaterial = new MeshBasicMaterial({
@@ -151,15 +151,16 @@ const planeMaterial = new MeshBasicMaterial({
 });
 
 const plane = new Mesh(planeGeometry, planeMaterial);
-plane.position.set(0, 2, -5); // Adjust position to avoid overlap with other objects
+plane.position.set(0, 0, -5); // Adjusted position to ensure visibility
 scene.add(plane);
 /////////////////////////////////////////////////////////////////////////
 ///// LOADING GLB/GLTF MODEL FROM BLENDER
 loader.load('models/gltf/landing.glb', function (gltf) { //cargar cualquier modelo
 
     if (window.innerWidth < 768) {
-        gltf.scene.scale.set(3,3,3)
+        gltf.scene.scale.set(5,5,5)
         gltf.scene.position.set(0,1.5,0)
+        gltf.scene.rotation.set(0,2,0)
     } else {
         gltf.scene.scale.set(10,10,10)
     }

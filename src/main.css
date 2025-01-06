@@ -35,7 +35,7 @@ body {
 	width: 10px;
 	height: 10px;
 	border-radius: 50%;
-	background: #3498db;
+	background: #e95050;
 	margin: -5px 0 0 -5px;
 }
 
@@ -131,7 +131,7 @@ body {
     font-size: 10px;
     font-weight: 100;
 	color:#f9f0ec;
-	background: radial-gradient(circle at center center,#5d5d5d 0,#090909 58%);
+	background: black;
 }
 
 #loading-text-intro.ended{
@@ -157,8 +157,21 @@ span {
 	transform: translate(-50%, -50%);
 	mix-blend-mode: difference;
 	transition: transform .8s ease, opacity 0.6s ease;
-	z-index: 2;
+	z-index: 20;
 }
+.social-media {
+    display: flex;
+    position: fixed;
+    justify-content: center;
+    gap: 15px;
+    margin: 10px 0;
+    bottom: 300px;
+    left: 50%;
+    transform: translateX(-50%);
+    flex-direction: row;
+}
+
+
 
 /* .cursor:has(.a:hover){
     transform: translate(-50%, -50%) scale(4); opacity: 0.3;
@@ -295,7 +308,7 @@ nav.header .a:hover ~ .cursor {
     height: 120vh;
     justify-content: flex-start;
     flex-direction: column;
-
+    padding-top: 50px;
     -moz-user-select: none;
 	-webkit-user-select: none;
 	-ms-user-select: none;
@@ -315,7 +328,7 @@ nav.header .a:hover ~ .cursor {
 }
 
 .first > h1 {
-    /* Add your styles here */
+   padding-top:20px;
 }
 
 .first > h1:after {
