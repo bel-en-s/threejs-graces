@@ -166,6 +166,10 @@ loader.load('models/gltf/landing.glb', function (gltf) { //cargar cualquier mode
     }
     gltf.scene.rotation.set(0,0,0)
 
+    if (window.innerWidth > 768) {
+        gltf.scene.position.set(0,-0.5, 0)
+    }
+
     gltf.scene.traverse((obj) => {
         if (obj.isMesh) {
             oldMaterial = obj.material
@@ -341,4 +345,5 @@ btn.forEach(b => b.addEventListener('mousemove', update))
 btn.forEach(b => b.addEventListener('mouseleave', update))
 btn.forEach(b => b.addEventListener('touchmove', update))
 btn.forEach(b => b.addEventListener('touchend', update))
+
 

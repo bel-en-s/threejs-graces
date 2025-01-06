@@ -177,13 +177,74 @@ span {
     transform: translate(-50%, -50%) scale(4); opacity: 0.3;
 } */
 
+/* Estilo general (desktop) */
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    position: fixed;
+    z-index: 2;
+    width: 100%;
+}
+
+.a {
+    display: inline-block;
+    color: #000000;
+    padding: 1rem;
+    margin-right: 4rem;
+    letter-spacing: .4em;
+    font-size: 1.2em;
+    transition: all 0.3s ease, color 0.3s ease;
+}
+
+nav.header .a:hover {
+    cursor: pointer;
+    color: rgb(0, 0, 0);
+    transform: scale(1.1);
+}
+
+/* Estilos para dispositivos móviles */
+@media only screen and (max-width: 660px) {
+    .header {
+        display: grid;
+        grid-template-rows: repeat(2, 1fr);
+        grid-template-columns: repeat(2, 1fr);
+        gap: 40vh 0;
+        height: 100vh;
+        padding: 0;
+        position: fixed;
+    }
+
+    .a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* border: 2px solid #e95050; Borde de los cuadrados */
+        font-size: 2m;
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .a span {
+        pointer-events: none; /* Evitar que el texto capte eventos */
+    }
+}
+
+
 .a { 
 	display: inline-block; 
 	color: #000000; 
 	padding: 1rem;
     margin-right: 4rem;
     letter-spacing: .4em;
-    font-size: .9em;
 	transition: all 0.3s ease, color 0.3s ease;
 }
 
@@ -262,7 +323,7 @@ nav.header .a:hover ~ .cursor {
     top: -2em;
     left: 0;
     color: #fff;
-    font-size: .8em;
+    font-size: 1.8em;
     width: 100%;
     text-align: center;
     z-index: 2;
@@ -273,7 +334,7 @@ nav.header .a:hover ~ .cursor {
 
 }
 .header.ended{
-    top: 3em;
+    top: 0.3em;
     opacity: 1;
 }
 
@@ -316,28 +377,13 @@ nav.header .a:hover ~ .cursor {
 	position: relative;
 	z-index: 1;
     background: linear-gradient(0deg, rgba(5,5,5,1) 20%, rgba(5,5,5,0) 50%);
-
 }
 
 .first > h2, .first > h1, .first > p {
     text-align: right;
 }
 
-.first > h2 {
-    /* Add your styles here */
-}
 
-.first > h1 {
-   padding-top:20px;
-}
-
-.first > h1:after {
-    /* Add your styles here */
-}
-
-.first > p {
-    /* Add your styles here */
-}
 
 .first > p.ended {
     opacity: 1;
@@ -493,7 +539,7 @@ nav.header .a:hover ~ .cursor {
     }
 
     .header{
-        font-size: .6em;
+        font-size:1.6em;
     }
 
     .main-section .product-display h3{
