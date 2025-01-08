@@ -194,7 +194,7 @@ span {
     padding: 1rem;
     margin-right: 4rem;
     letter-spacing: .4em;
-    font-size: 1.2em;
+    font-size: 0.8em;
     transition: all 0.3s ease, color 0.3s ease;
 }
 
@@ -205,12 +205,12 @@ nav.header .a:hover {
 }
 
 /* Estilos para dispositivos móviles */
-@media only screen and (max-width: 660px) {
+@media only screen and (max-width: 768px) and (orientation: portrait) {
     .header {
         display: grid;
         grid-template-rows: repeat(2, 1fr);
         grid-template-columns: repeat(2, 1fr);
-        gap: 40vh 0;
+        gap: 30vh 0;
         height: 100vh;
         padding: 0;
         position: fixed;
@@ -334,7 +334,7 @@ nav.header .a:hover ~ .cursor {
 
 }
 .header.ended{
-    top: 0.3em;
+    top: 0.1em;
     opacity: 1;
 }
 
