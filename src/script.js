@@ -137,7 +137,7 @@ const planeGeometry = new PlaneGeometry(window.innerWidth, window.innerHeight);
 
 const planeTexture = new TextureLoader().load('textures/1.jpg', (texture) => {
     texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-    texture.repeat.set(window.innerWidth / texture.image.width, window.innerHeight / texture.image.height);
+    texture.repeat.set(window.innerWidth / (texture.image.width * 0.5), window.innerHeight / (texture.image.height * 0.5));
 });
 
 const planeMaterial = new MeshBasicMaterial({
@@ -347,3 +347,14 @@ btn.forEach(b => b.addEventListener('touchmove', update))
 btn.forEach(b => b.addEventListener('touchend', update))
 
 
+
+function openPopup() {
+    const popup = document.getElementById('popup');
+    popup.classList.add('active');
+  }
+  
+  // Function to close the popup
+  function closePopup() {
+    const popup = document.getElementById('popup');
+    popup.classList.remove('active');
+  }
