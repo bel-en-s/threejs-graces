@@ -253,9 +253,9 @@ nav.header .a:hover ~ .cursor {
 .header {
     position: absolute;
     top: -2em;
-    left: 8%;
+    left: 0;
     color: #fff;
-    font-size: 0.8em;
+    font-size: 1.5em;
     width: 100%;
     text-align: center;
     z-index: 2;
@@ -263,6 +263,13 @@ nav.header .a:hover ~ .cursor {
     transition: all 1.9s ease-in-out;
     padding: 0;
     margin: 0;
+}
+
+@media only screen and (max-width: 768px) {
+    .header {
+        left: 8%;
+        font-size: 1em;
+    }
 }
 
 .header.ended {
@@ -358,3 +365,43 @@ footer {
         padding: 1rem;
     }
 }
+
+
+.popup {
+    position: fixed;
+    bottom: -100%;
+    left: 0;
+    width: 100%;
+    background-color: black;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh; /* Adjust height as needed */
+    z-index: 1000;
+    transition: bottom 0.5s ease-in-out;
+  }
+  
+  /* Popup content styling */
+  .popup-content {
+    position: relative;
+    width: 90%;
+    text-align: center;
+    padding: 1rem;
+  }
+  
+  .close-btn {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: none;
+    color: white;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  
+  /* Show the popup */
+  .popup.active {
+    bottom: 0;
+  }

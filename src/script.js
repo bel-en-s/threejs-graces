@@ -348,13 +348,4 @@ btn.forEach(b => b.addEventListener('touchend', update))
 
 
 
-function openPopup() {
-    const popup = document.getElementById('popup');
-    popup.classList.add('active');
-  }
-  
-  // Function to close the popup
-  function closePopup() {
-    const popup = document.getElementById('popup');
-    popup.classList.remove('active');
-  }
+
