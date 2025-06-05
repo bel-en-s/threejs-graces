@@ -408,8 +408,107 @@ footer {
     font-size: 1.5rem;
     cursor: pointer;
   }
+  @keyframes slideIn {
+    from {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideOut {
+    from {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+  }
+
+  .popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(20, 20, 20, 0.95);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+
+  .popup-content {
+    position: relative;
+    padding: 2rem;
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow-y: auto;
+    background: #111;
+    border-radius: 10px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    color: white;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: white;
+    cursor: pointer;
+  }
   
   /* Show the popup */
   .popup.active {
     bottom: 0;
   }
+
+  .works-scroll-container {
+    display: flex;
+    gap: 2rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 2rem;
+    scroll-snap-type: x mandatory;
+  }
+  
+  .work-item {
+    flex: 0 0 auto;
+    width: 300px;
+    scroll-snap-align: center;
+    text-align: center;
+    color: white;
+  }
+  
+  .work-item img {
+    width: 100%;
+    border-radius: 16px;
+    object-fit: cover;
+    margin-bottom: 1rem;
+  }
+  
+  /* En mobile, cambia a scroll vertical */
+  @media (max-width: 768px) {
+    .works-scroll-container {
+      flex-direction: column;
+      overflow-x: hidden;
+      overflow-y: auto;
+      max-height: 80vh;
+      scroll-snap-type: y mandatory;
+    }
+  
+    .work-item {
+      width: 100%;
+      max-width: 90vw;
+      margin: 0 auto;
+    }
+  }
+  

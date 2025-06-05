@@ -71,8 +71,34 @@
                 </div>
 
                 <div id="popup-works-content" class="popup-module" style="display:none;">
-                    <img src="works.gif" alt="Works" style="width: 30vw; height: auto;">
-                    <a href="https://editor.p5js.org/bel-en-s/full/-HjfvGlPx" style="color:white;">p5.js Sketch</a>
+                    <div class="works-scroll-container">
+                        <div class="work-item">
+                          <img src="https://placekitten.com/300/200" alt="Work 1" />
+                          <p>Descripción del trabajo 1</p>
+                        </div>
+                        <div class="work-item">
+                          <img src="https://placekitten.com/300/200" alt="Work 2" />
+                          <p>Descripción del trabajo 2</p>
+                        </div>
+                        <div class="work-item">
+                          <img src="https://placekitten.com/300/200" alt="Work 3" />
+                          <p>Descripción del trabajo 3</p>
+                        </div>
+                        <div class="work-item">
+                            <img src="https://placekitten.com/300/200" alt="Work 1" />
+                            <p>Descripción del trabajo 1</p>
+                          </div>
+                          <div class="work-item">
+                            <img src="https://placekitten.com/300/200" alt="Work 2" />
+                            <p>Descripción del trabajo 2</p>
+                          </div>
+                          <div class="work-item">
+                            <img src="https://placekitten.com/300/200" alt="Work 3" />
+                            <p>Descripción del trabajo 3</p>
+                          </div>
+                        <!-- Repite según lo necesario -->
+                      </div>
+                      
                 </div>
 
                 <div id="popup-about-content" class="popup-module" style="display:none;">
@@ -121,61 +147,44 @@
     </footer>
 
     <script>
-       function showPopup(contentId) {
-    const popup = document.getElementById('popup');
-    const inner = document.getElementById('popup-inner');
+        function showPopup(contentId) {
+          const popup = document.getElementById('popup');
+          const inner = document.getElementById('popup-inner');
+      
+          // Ocultar todos los módulos antes de mostrar el nuevo
+          const modules = document.querySelectorAll('.popup-module');
+          modules.forEach(mod => mod.style.display = 'none');
+      
+          // Obtener el contenido original
+          const content = document.getElementById(`popup-${contentId}-content`);
+          if (content) {
+            inner.innerHTML = ''; // Limpiar anterior
+            content.style.display = 'block'; // Mostrar el contenido
+            inner.appendChild(content.cloneNode(true));
 
-    // Limpiar contenido anterior
-    inner.innerHTML = '';
-
-    // Obtener el contenido original (no clonarlo)
-    const content = document.getElementById(`popup-${contentId}-content`);
-    if (content) {
-        // Mostrar el contenido original dentro del popup
-        inner.appendChild(content);
-        content.style.display = 'block'; // Asegurarse que sea visible
-    }
-
-    popup.style.animation = 'slideIn 0.5s ease-in-out';
-    popup.style.display = 'block';
-}
-
-
-function closePopup() {
-    const popup = document.getElementById('popup');
-    const inner = document.getElementById('popup-inner');
-
-    popup.style.animation = 'slideOut 0.5s ease-in-out';
-
-    setTimeout(() => {
-        popup.style.display = 'none';
-
-        // Ocultamos todos los módulos para que no queden visibles luego
-        const modules = document.querySelectorAll('.popup-module');
-        modules.forEach(mod => mod.style.display = 'none');
-
-        inner.innerHTML = '';
-    }, 500);
-}
-
-    </script>
-    <style>
-        @keyframes slideIn {
-            from {
-                transform: translateY(-100%);
-            }
-            to {
-                transform: translateY(0);
-            }
+          }
+      
+          popup.style.animation = 'slideIn 0.5s ease-in-out';
+          popup.style.display = 'block';
         }
-        @keyframes slideOut {
-            from {
-                transform: translateY(0);
-            }
-            to {
-                transform: translateY(-100%);
-            }
+      
+        function closePopup() {
+          const popup = document.getElementById('popup');
+          const inner = document.getElementById('popup-inner');
+      
+          popup.style.animation = 'slideOut 0.5s ease-in-out';
+      
+          setTimeout(() => {
+            popup.style.display = 'none';
+      
+            // Volver a esconder los módulos después del cierre
+            const modules = document.querySelectorAll('.popup-module');
+            modules.forEach(mod => mod.style.display = 'none');
+      
+            inner.innerHTML = '';
+          }, 500);
         }
-    </style>
+      </script>
+      
 </html>
 
