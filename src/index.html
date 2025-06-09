@@ -1,190 +1,175 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>belén seoane - multimedia arts</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-        <meta name="description" content="Multimedia artist from UNA Universidad Nacional de las Artes, servides, WebGL, 3D, Branding, Art Direction.">
-        <meta name="keywords" content="ThreeJS, HTML, CSS, JavaScript, Belén SEOANE, Spanish Artist, Anderson Mancini, UNA Universidad Nacional de las Artes, servides, WebGL, 3D, Branding, Art Direction">
-        <meta name="author" content="Anderson Mancini">
-        <meta property="og:title" content="pliegue agencia digital">
-        <meta property="og:description" content="Multimedia artist from UNA Universidad Nacional de las Artes, servides, WebGL, 3D, Branding, Art Direction.">
-        <meta property="og:image" content="https://threejs-graces.tiiny.site/static/textures/imageSocial.jpg">
-        <meta name="twitter:card" content="summary_large_image">
-        <meta property="twitter:domain" content="threejs-graces.tiiny.site/">
-        <meta property="twitter:url" content="https://threejs-graces.tiiny.site/">
-        <meta name="twitter:title" content="pliegue agencia | A Three.js Belén SEOANE Renderer by Anderson Mancini">
-        <meta name="twitter:description" content="Multimedia artist from UNA Universidad Nacional de las Artes, servides, WebGL, 3D, Branding, Art Direction.">
-        <meta name="twitter:image" content="https://threejs-graces.tiiny.site/static/textures/imageSocial.jpg">
-        <link rel="apple-touch-icon" sizes="180x180" href="../static/favicon/logo.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="../static/favicon/logo.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="../static/favicon/logo.png">
-        <link rel="manifest" href="../static/favicon/site.webmanifest">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Josefin+Sans&family=Nanum+Myeongjo&display=swap" rel="stylesheet">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
-    </head>
-    <body>
-        <div class="lds-roller">
-            <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+<head>
+  <title>belén seoane - multimedia arts</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+  <meta name="description" content="Multimedia artist from UNA Universidad Nacional de las Artes, servides, WebGL, 3D, Branding, Art Direction." />
+  <meta name="keywords" content="ThreeJS, HTML, CSS, JavaScript, Belén SEOANE, Spanish Artist, Anderson Mancini, UNA Universidad Nacional de las Artes, servides, WebGL, 3D, Branding, Art Direction" />
+  <meta name="author" content="Anderson Mancini" />
+  <meta property="og:title" content="pliegue agencia digital" />
+  <meta property="og:description" content="Multimedia artist from UNA Universidad Nacional de las Artes, servides, WebGL, 3D, Branding, Art Direction." />
+  <meta property="og:image" content="https://threejs-graces.tiiny.site/static/textures/imageSocial.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta property="twitter:domain" content="threejs-graces.tiiny.site/" />
+  <meta property="twitter:url" content="https://threejs-graces.tiiny.site/" />
+  <meta name="twitter:title" content="pliegue agencia | A Three.js Belén SEOANE Renderer by Anderson Mancini" />
+  <meta name="twitter:description" content="Multimedia artist from UNA Universidad Nacional de las Artes, servides, WebGL, 3D, Branding, Art Direction." />
+  <meta name="twitter:image" content="https://threejs-graces.tiiny.site/static/textures/imageSocial.jpg" />
+  <link rel="apple-touch-icon" sizes="180x180" href="../static/favicon/logo.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../static/favicon/logo.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="../static/favicon/logo.png" />
+  <link rel="manifest" href="../static/favicon/site.webmanifest" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Josefin+Sans&family=Nanum+Myeongjo&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
+</head>
+<body>
+  <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+  <div id="loading-text-intro"><p></p></div>
+
+  <div class="main-container" style="visibility:hidden;">
+    <nav class="header">
+      <a class="a" onclick="showPopup('works')">
+        <img class="icon-header" src="1.png" alt="Studio Work" />
+        <span>THE FOLD <br />studio</span>
+      </a>
+      <a class="a" onclick="showPopup('art')">
+        <img src="3.png" alt="About" class="icon-header" />
+        <span>ART</span>
+      </a>
+      <a class="a" onclick="showPopup('about')">
+        <img src="2.png" alt="About" class="icon-header" />
+        <span>ABOUT</span>
+      </a>
+      <a class="a" onclick="showPopup('about')">
+        <img src="4.png" alt="About" class="icon-header" />
+        <span>WORKSHOPS</span>
+      </a>
+      <a class="a" style="display: none;">
+        <img src="3.png" alt="Visit Icon" style="width: 2rem; height: 2rem; opacity: 0.5;" />
+        <span style="color: #808080;">soon</span>
+      </a>
+      <a class="a" style="display: none;" target="_blank">
+        <img src="1.png" alt="Visit Icon" style="width: 2rem; height: 2rem; opacity: 0.5;" />
+        <span style="color: #808080;">soon</span>
+      </a>
+
+      <!-- Popup Modal -->
+      <div id="popup" class="popup" style="display:none;">
+        <div class="popup-content">
+          <button class="close-btn" onclick="closePopup()">×</button>
+          <div id="popup-inner"></div>
         </div>
-        <div id="loading-text-intro"><p></p></div>
+      </div>
 
-        <div class="main-container" style="visibility:hidden;">
-            <nav class="header">
-                <a class="a" onclick="showPopup('works')">
-                    <img class="icon-header" src="1.png" alt="Studio Work"/>
-                    <span>THE FOLD <br> studio</span>
-                </a>
-                <a class="a" onclick="showPopup('art')">
-                    <img src="3.png" alt="About" class="icon-header" />
-                    <span>ART</span>
-                </a>
-                <a class="a" onclick="showPopup('about')">
-                    <img src="2.png" alt="About" class="icon-header" />
-                    <span>ABOUT</span>
-                </a>
-                <a class="a" onclick="showPopup('about')">
-                    <img src="4.png" alt="About" class="icon-header" />
-                    <span>WORKSHOPS</span>
-                </a>
-                <a class="a" style="display: none;">
-                    <img src="3.png" alt="Visit Icon" style="width: 2rem; height: 2rem; opacity: 0.5;" />
-                    <span style="color: #808080;">soon</span>
-                </a>
-                <a class="a" style="display: none;" target="_blank">
-                    <img src="1.png" alt="Visit Icon" style="width: 2rem; height: 2rem; opacity: 0.5;" />
-                    <span style="color: #808080;">soon</span>
-                </a>
-                <!-- Shared Popup Structure -->
-                <div id="popup" class="popup" style="display:none;">
-                    <div class="popup-content">
-                        <button class="close-btn" onclick="closePopup()">×</button>
-                        <div id="popup-inner"></div>
-                    </div>
-                </div>
+      <!-- Hidden Template Modules -->
+      <template id="popup-art-content">
+        <img src="about.gif" alt="Art" style="width: 30vw; height: auto;" />
+      </template>
 
-                <!-- Modular Contents (Hidden) -->
-                <div id="popup-art-content" class="popup-module" style="display:none;">
-                    <img src="about.gif" alt="Art" style="width: 30vw; height: auto;">
-                </div>
-
-                <div id="popup-works-content" class="popup-module" style="display:none;">
-                    <div class="works-scroll-container">
-                        <div class="work-item">
-                          <img src="https://placekitten.com/300/200" alt="Work 1" />
-                          <p>Descripción del trabajo 1</p>
-                        </div>
-                        <div class="work-item">
-                          <img src="https://placekitten.com/300/200" alt="Work 2" />
-                          <p>Descripción del trabajo 2</p>
-                        </div>
-                        <div class="work-item">
-                          <img src="https://placekitten.com/300/200" alt="Work 3" />
-                          <p>Descripción del trabajo 3</p>
-                        </div>
-                        <div class="work-item">
-                            <img src="https://placekitten.com/300/200" alt="Work 1" />
-                            <p>Descripción del trabajo 1</p>
-                          </div>
-                          <div class="work-item">
-                            <img src="https://placekitten.com/300/200" alt="Work 2" />
-                            <p>Descripción del trabajo 2</p>
-                          </div>
-                          <div class="work-item">
-                            <img src="https://placekitten.com/300/200" alt="Work 3" />
-                            <p>Descripción del trabajo 3</p>
-                          </div>
-                        <!-- Repite según lo necesario -->
-                      </div>
-                      
-                </div>
-
-                <div id="popup-about-content" class="popup-module" style="display:none;">
-                    <p style="color: white;">This is the ABOUT section content. Add your info here!</p>
-                </div>
-            </nav>
-
-            <div class="first">
-                <h2></h2>
-                <h1></h1>
-                <h1></h1>
-                <p></p>
-            </div>  
-
-            <div class="section second">
-                <div class="second-container">
-                    <ul>
-                        <li id="aglaea" class="active">Aglaea</li>
-                        <li id="thalia"><a>Thalia</a></li>
-                        <li id="euphre">Euphre</li>
-                    </ul>
-                    <p id="content">She was venerated as the goddess of beauty, splendor, glory, magnificence, and adornment. She is the youngest of the Charites according to Hesiod. Aglaea is one of three daughters of Zeus and either the Oceanid Eurynome, or of Eunomia, the goddess of good order and lawful conduct.</p>
-                </div>
-                <div id="canvas-container-details"></div>
-            </div>
-
-            <div class="third">
-                <h1></h1>
-                <p></p>
-            </div>
-            <div id="canvas-container" class="fixed"></div> 
+      <template id="popup-works-content">
+        <div class="works-scroll-container">
+          <div class="work-item"><img src="ej.jpg" alt="Work 1" /><p>Descripción del trabajo 1</p></div>
+          <div class="work-item"><img src="ej.jpg" alt="Work 2" /><p>Descripción del trabajo 2</p></div>
+          <div class="work-item"><img src="ej.jpg" alt="Work 3" /><p>Descripción del trabajo 3</p></div><div class="work-item"><img src="ej.jpg" alt="Work 3" /><p>Descripción del trabajo 3</p></div>
+           <div class="work-item"><img src="ej.jpg" alt="Work 1" /><p>Descripción del trabajo 1</p></div>
+          <div class="work-item"><img src="ej.jpg" alt="Work 2" /><p>Descripción del trabajo 2</p></div>
+          <div class="work-item"><img src="ej.jpg" alt="Work 3" /><p>Descripción del trabajo 3</p></div><div class="work-item"><img src="ej.jpg" alt="Work 3" /><p>Descripción del trabajo 3</p></div>
         </div>
-    </body>
-    <footer style="display: flex; flex-direction: column; align-items: center;  padding-top: 150px;">
-        <div style="display: flex; flex-direction: column; align-items: center;">
-            <a style="margin-bottom: 10px; padding: 10px; color: #000; font-weight: bold; text-decoration: none;" href="mailto:belen.seoane.palmieri@gmail.com">
-                <img src="../static/favicon/message-2.svg" alt="Email Icon" style="width: 24px; height: 24px; fill: #000;">
-            </a>
-            <a style="padding: 10px; color: #000; font-weight: bold; text-decoration: none;" href="https://www.instagram.com/bel.en.s" target="_blank">
-                <img src="../static/favicon/instagram.svg" alt="Instagram" style="width: 24px; height: 24px; fill: #000;">
-            </a>
-            <a style="padding: 10px; color: #000; font-weight: bold; text-decoration: none;" href="https://www.behance.net/bel-en-s" target="_blank">
-                <img src="../static/favicon/behance.svg" alt="Behance" style="width: 24px; height: 24px; fill: #000;">
-            </a>
-        </div>
-    </footer>
+      </template>
 
-    <script>
-        function showPopup(contentId) {
-          const popup = document.getElementById('popup');
-          const inner = document.getElementById('popup-inner');
-      
-          // Ocultar todos los módulos antes de mostrar el nuevo
-          const modules = document.querySelectorAll('.popup-module');
-          modules.forEach(mod => mod.style.display = 'none');
-      
-          // Obtener el contenido original
-          const content = document.getElementById(`popup-${contentId}-content`);
-          if (content) {
-            inner.innerHTML = ''; // Limpiar anterior
-            content.style.display = 'block'; // Mostrar el contenido
-            inner.appendChild(content.cloneNode(true));
+     <template id="popup-about-content">
+  <section class="about-section">
+    <h2 class="about-title">About Us</h2>
+    <p class="about-description">
+      This is the ABOUT section content. Add your info here! Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+      Praesent commodo, magna sit amet aliquam dictum, orci lectus aliquam urna, at feugiat tortor sapien in purus.
+    </p>
+    <p class="about-extra">
+      We focus on delivering quality projects with passion and dedication. Feel free to contact us for more information!
+    </p>
+  </section>
+</template>
 
-          }
-      
-          popup.style.animation = 'slideIn 0.5s ease-in-out';
-          popup.style.display = 'block';
+    </nav>
+
+    <div class="first">
+      <h2></h2>
+      <h1></h1>
+      <h1></h1>
+      <p></p>
+    </div>
+
+    <div class="section second">
+      <div class="second-container">
+        <ul>
+          <li id="aglaea" class="active">Aglaea</li>
+          <li id="thalia"><a>Thalia</a></li>
+          <li id="euphre">Euphre</li>
+        </ul>
+        <p id="content">She was venerated as the goddess of beauty, splendor, glory, magnificence, and adornment...</p>
+      </div>
+      <div id="canvas-container-details"></div>
+    </div>
+
+    <div class="third">
+      <h1></h1>
+      <p></p>
+    </div>
+    <div id="canvas-container" class="fixed"></div>
+  </div>
+
+  <footer style="display: flex; flex-direction: column; align-items: center; padding-top: 150px;">
+    <div style="display: flex; flex-direction: column; align-items: center;">
+      <a href="mailto:belen.seoane.palmieri@gmail.com" style="margin-bottom: 10px; padding: 10px;">
+        <img src="../static/favicon/message-2.svg" alt="Email Icon" style="width: 24px; height: 24px;" />
+      </a>
+      <a href="https://www.instagram.com/bel.en.s" target="_blank" style="padding: 10px;">
+        <img src="../static/favicon/instagram.svg" alt="Instagram" style="width: 24px; height: 24px;" />
+      </a>
+      <a href="https://www.behance.net/bel-en-s" target="_blank" style="padding: 10px;">
+        <img src="../static/favicon/behance.svg" alt="Behance" style="width: 24px; height: 24px;" />
+      </a>
+    </div>
+  </footer>
+
+  <script>
+    function removeIds(node) {
+      if (node.nodeType === 1) {
+        node.removeAttribute('id');
+        for (let child of node.children) {
+          removeIds(child);
         }
-      
-        function closePopup() {
-          const popup = document.getElementById('popup');
-          const inner = document.getElementById('popup-inner');
-      
-          popup.style.animation = 'slideOut 0.5s ease-in-out';
-      
-          setTimeout(() => {
-            popup.style.display = 'none';
-      
-            // Volver a esconder los módulos después del cierre
-            const modules = document.querySelectorAll('.popup-module');
-            modules.forEach(mod => mod.style.display = 'none');
-      
-            inner.innerHTML = '';
-          }, 500);
-        }
-      </script>
-      
+      }
+    }
+
+    function showPopup(contentId) {
+      const popup = document.getElementById('popup');
+      const inner = document.getElementById('popup-inner');
+      inner.innerHTML = '';
+
+      const template = document.getElementById(`popup-${contentId}-content`);
+      if (template) {
+        const clone = template.content.cloneNode(true);
+        removeIds(clone);
+        inner.appendChild(clone);
+        popup.style.animation = 'slideIn 0.5s ease-in-out';
+        popup.style.display = 'block';
+      }
+    }
+
+    function closePopup() {
+      const popup = document.getElementById('popup');
+      const inner = document.getElementById('popup-inner');
+      popup.style.animation = 'slideOut 0.5s ease-in-out';
+
+      setTimeout(() => {
+        popup.style.display = 'none';
+        inner.innerHTML = '';
+      }, 500);
+    }
+  </script>
+</body>
 </html>
-

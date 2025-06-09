@@ -438,6 +438,7 @@ footer {
     height: 100vh;
     background: rgba(20, 20, 20, 0.95);
     display: none;
+       box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
     justify-content: center;
     align-items: center;
     z-index: 9999;
@@ -446,12 +447,12 @@ footer {
   .popup-content {
     position: relative;
     padding: 2rem;
-    max-width: 90vw;
-    max-height: 90vh;
+    /* max-width: 90vw;
+    max-height: 90vh; */
     overflow-y: auto;
-    background: #111;
+    /* background: #111; */
     border-radius: 10px;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+ 
     color: white;
   }
 
@@ -512,3 +513,49 @@ footer {
     }
   }
   
+
+  .about-section {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  color: #eee;
+  font-family: 'Roboto', sans-serif;
+  text-align: center;
+}
+
+.about-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #8bc34a; /* verde canchero */
+  margin-bottom: 1rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-shadow: 0 0 8px #8bc34a88;
+}
+
+.about-description,
+.about-extra {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 1.2rem;
+  color: #ddd;
+  text-shadow: 0 0 3px #00000088;
+}
+
+.about-extra {
+  font-style: italic;
+  color: #a8d08d;
+}
+
+@media (max-width: 600px) {
+  .about-section {
+    padding: 1rem 1rem;
+  }
+  .about-title {
+    font-size: 1.8rem;
+  }
+  .about-description,
+  .about-extra {
+    font-size: 1rem;
+  }
+}
