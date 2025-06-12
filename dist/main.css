@@ -5,7 +5,7 @@
 }
 
 h1 {
-    font-family: 'Roboto', sans-serif;
+    font-family: "PP Editorial Old";
     font-size: 2rem;
 }
 
@@ -31,19 +31,13 @@ body {
 }
 
 .lds-roller div {
-    animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-    transform-origin: 50px 50px;
-}
-
-.lds-roller div:after {
-    content: " ";
-    display: block;
+    width: 20px;
+    height: 20px;
+    background: url(assets/images/2cbd8db37aaeaf8c.svg) no-repeat center center;
+    background-size: contain;
     position: absolute;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: #8bc34a;
-    margin: -5px 0 0 -5px;
+    transform-origin: 50px 50px;
+    animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
 }
 
 @keyframes lds-roller {
@@ -111,6 +105,7 @@ span {
     left: 50%;
     transform: translateX(-50%);
     flex-direction: row;
+    mix-blend-mode: difference;
 }
 
 /* Estilo general (desktop) */
@@ -124,6 +119,11 @@ span {
     width: 100%;
 }
 
+.icon-header {
+    width: 2rem;
+    height: 2rem;
+}
+
 .a {
     display: inline-block;
     color: #000000;
@@ -133,6 +133,7 @@ span {
     font-size: 0.8em;
     transition: all 0.3s ease, color 0.3s ease;
     -webkit-tap-highlight-color: transparent;
+    display: flex; flex-direction: column; align-items: center; text-decoration: underline;
 }
 
 nav.header .a:hover {
@@ -142,40 +143,38 @@ nav.header .a:hover {
 }
 
 /* Estilos para dispositivos móviles */
-@media only screen and (max-width: 768px) and (orientation: portrait) {
+@media only screen and (max-width: 768px){
     .header {
-        display: grid;
-        grid-template-rows: repeat(2, 1fr);
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20vh 0;
-        height: 100vh;
-        padding: 0;
-        position: fixed;
+        top: 1em;
+        left: 0%;
+        font-size: 0.8em;
     }
-
+    .header.ended {
+    top: 3em;
+    opacity: 1;
+}
     .a {
+        padding: 0.1rem;
+        margin-right: 0;
+        letter-spacing: .4em;
+        padding: 0rem;
+        margin-right: 0rem;
+            font-size: 3vw;
+        transition: all 0.3s ease, color 0.3s ease;
+        -webkit-tap-highlight-color: transparent;
         display: flex;
-        justify-content: center;
+        flex-direction: column;
         align-items: center;
-        font-size: 2em;
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        text-align: center;
-        background-size: cover;
-        background-position: center;
-    }
-
-    .a span {
-        pointer-events: none;
+        text-decoration: underline;
     }
 }
 
 .a {
-    display: inline-block;
+    /* display: inline-block; */
     color: #000000;
-    padding: 1rem;
-    margin-right: 4rem;
+    padding: 0.5rem;
+    margin-right: 0.4rem; 
+
     letter-spacing: .4em;
     transition: all 0.3s ease, color 0.3s ease;
     -webkit-tap-highlight-color: transparent;
@@ -264,15 +263,10 @@ nav.header .a:hover ~ .cursor {
     margin: 0;
 }
 
-@media only screen and (max-width: 768px) {
-    .header {
-        left: 8%;
-        font-size: 1em;
-    }
-}
+
 
 .header.ended {
-    top: 0.1em;
+    top: 4em;
     opacity: 1;
 }
 
@@ -333,6 +327,7 @@ footer {
     position: fixed;
     left: 1rem;
     top: 70%;
+    mix-blend-mode: multiply;
     transform: translateY(-50%);
     z-index: 3;
 }
@@ -385,7 +380,7 @@ footer {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 50vh; /* Adjust height as needed */
+    height: 50vh;
     z-index: 1000;
     transition: bottom 0.5s ease-in-out;
   }
@@ -408,8 +403,169 @@ footer {
     font-size: 1.5rem;
     cursor: pointer;
   }
+  @keyframes slideIn {
+    from {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideOut {
+    from {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+  }
+
+  .popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(20, 20, 20, 1);
+    display: none;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+
+  .popup-content {
+    position: relative;
+    padding: 2rem;
+    /* max-width: 90vw;
+    max-height: 90vh; */
+    overflow-y: auto;
+    /* background: #111; */
+    border-radius: 10px;
+ 
+    color: white;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: white;
+    cursor: pointer;
+  }
   
   /* Show the popup */
   .popup.active {
     bottom: 0;
   }
+
+  .works-scroll-container {
+    display: flex;
+    gap: 2rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 2rem;
+    scroll-snap-type: x mandatory;
+  }
+  
+  .work-item {
+    flex: 0 0 auto;
+    width: 300px;
+    scroll-snap-align: center;
+    text-align: center;
+    color: white;
+  }
+  
+  .work-item img {
+    width: 100%;
+    border-radius: 16px;
+    object-fit: cover;
+    margin-bottom: 1rem;
+  }
+  
+  /* En mobile, cambia a scroll vertical */
+  @media (max-width: 768px) {
+    .works-scroll-container {
+      flex-direction: column;
+      overflow-x: hidden;
+      overflow-y: auto;
+      max-height: 80vh;
+      scroll-snap-type: y mandatory;
+    }
+  
+    .work-item {
+      width: 100%;
+      max-width: 90vw;
+      margin: 0 auto;
+    }
+  }
+  
+
+  .about-section {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  color: #eee;
+  font-family: 'Roboto', sans-serif;
+  text-align: center;
+}
+
+.about-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #8bc34a; /* verde canchero */
+  margin-bottom: 1rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-shadow: 0 0 8px #8bc34a88;
+}
+
+.about-description,
+.about-extra {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 1.2rem;
+  color: #ddd;
+  text-shadow: 0 0 3px #00000088;
+}
+
+.about-extra {
+  font-style: italic;
+  color: #a8d08d;
+}
+
+@media (max-width: 600px) {
+  .about-section {
+    padding: 1rem 1rem;
+  }
+  .about-title {
+    font-size: 1.8rem;
+  }
+  .about-description,
+  .about-extra {
+    font-size: 1rem;
+  }
+}
+
+
+.header h1 {
+    position: relative;
+    font-size: 25vw;
+    font-weight: lighter;
+    letter-spacing: -0.02em;
+    line-height: 0.85;
+    transform: rotateY(60deg);
+    transform-origin: bottom left;
+    will-change: transform;
+  }
+  
+
+

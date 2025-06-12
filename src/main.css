@@ -6,7 +6,7 @@
 }
 
 h1 {
-    font-family: 'Roboto', sans-serif;
+    font-family: "PP Editorial Old";
     font-size: 2rem;
 }
 
@@ -32,19 +32,13 @@ body {
 }
 
 .lds-roller div {
-    animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-    transform-origin: 50px 50px;
-}
-
-.lds-roller div:after {
-    content: " ";
-    display: block;
+    width: 20px;
+    height: 20px;
+    background: url('icon.svg') no-repeat center center;
+    background-size: contain;
     position: absolute;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: #8bc34a;
-    margin: -5px 0 0 -5px;
+    transform-origin: 50px 50px;
+    animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
 }
 
 @keyframes lds-roller {
@@ -112,6 +106,7 @@ span {
     left: 50%;
     transform: translateX(-50%);
     flex-direction: row;
+    mix-blend-mode: difference;
 }
 
 /* Estilo general (desktop) */
@@ -333,6 +328,7 @@ footer {
     position: fixed;
     left: 1rem;
     top: 70%;
+    mix-blend-mode: multiply;
     transform: translateY(-50%);
     z-index: 3;
 }
@@ -385,7 +381,7 @@ footer {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 50vh; /* Adjust height as needed */
+    height: 50vh;
     z-index: 1000;
     transition: bottom 0.5s ease-in-out;
   }
@@ -436,9 +432,9 @@ footer {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(20, 20, 20, 0.95);
+    background: rgba(20, 20, 20, 1);
     display: none;
-       box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
     justify-content: center;
     align-items: center;
     z-index: 9999;
@@ -559,3 +555,17 @@ footer {
     font-size: 1rem;
   }
 }
+
+
+.header h1 {
+    position: relative;
+    font-size: 25vw;
+    font-weight: lighter;
+    letter-spacing: -0.02em;
+    line-height: 0.85;
+    transform: rotateY(60deg);
+    transform-origin: bottom left;
+    will-change: transform;
+  }
+  
+
