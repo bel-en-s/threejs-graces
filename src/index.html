@@ -23,7 +23,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Josefin+Sans&family=Nanum+Myeongjo&display=swap" rel="stylesheet" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script> -->
+  <link rel="stylesheet" href="styles-infinite-scroll.css" />
+
 </head>
 <body>
   <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
@@ -70,14 +72,25 @@
       </template>
 
       <template id="popup-works-content">
-        <div class="works-scroll-container">
-          <div class="work-item"><img src="ej.jpg" alt="Work 1" /><p>Descripción del trabajo 1</p></div>
-          <div class="work-item"><img src="ej.jpg" alt="Work 2" /><p>Descripción del trabajo 2</p></div>
-          <div class="work-item"><img src="ej.jpg" alt="Work 3" /><p>Descripción del trabajo 3</p></div><div class="work-item"><img src="ej.jpg" alt="Work 3" /><p>Descripción del trabajo 3</p></div>
-           <div class="work-item"><img src="ej.jpg" alt="Work 1" /><p>Descripción del trabajo 1</p></div>
-          <div class="work-item"><img src="ej.jpg" alt="Work 2" /><p>Descripción del trabajo 2</p></div>
-          <div class="work-item"><img src="ej.jpg" alt="Work 3" /><p>Descripción del trabajo 3</p></div><div class="work-item"><img src="ej.jpg" alt="Work 3" /><p>Descripción del trabajo 3</p></div>
+        <div class="infinite-scroll-wrapper">
+          <div class="container">
+            <ul class="project-list">
+              <li class="project template" style="display: none">
+                <div class="side">
+                  <div class="title">
+                    <h1>Title</h1>
+                    <h1>00</h1>
+                  </div>
+                </div>
+                <div class="side">
+                  <div class="img"><img src="1.png" alt="" /></div>
+                </div>
+              </li>
+            </ul>
+          </div>
         </div>
+      </template>
+      
       </template>
 
      <template id="popup-about-content">
@@ -140,40 +153,69 @@
   </footer>
 
   <script>
-    function removeIds(node) {
-      if (node.nodeType === 1) {
-        node.removeAttribute('id');
-        for (let child of node.children) {
-          removeIds(child);
+  function removeIds(node) {
+  if (node.nodeType === 1) {
+    node.removeAttribute('id');
+    for (let child of node.children) {
+      removeIds(child);
+    }
+  }
+}
+
+function showPopup(contentId) {
+  const popup = document.getElementById('popup');
+  const inner = document.getElementById('popup-inner');
+  inner.innerHTML = '';
+
+  const template = document.getElementById(`popup-${contentId}-content`);
+  if (template) {
+    const clone = template.content.cloneNode(true);
+    removeIds(clone);
+    inner.appendChild(clone);
+    popup.style.animation = 'slideIn 0.5s ease-in-out';
+    popup.style.display = 'block';
+
+    if (contentId === 'works') {
+      window.__scrollStarted = false;
+      requestAnimationFrame(() => {
+        if (document.querySelector('.project-list')) {
+          window.startInfiniteScroll?.();
+        } else {
+          console.error('Project list not found in popup');
         }
-      }
+      });
     }
+  }
+}
 
-    function showPopup(contentId) {
-      const popup = document.getElementById('popup');
-      const inner = document.getElementById('popup-inner');
-      inner.innerHTML = '';
+function closePopup() {
+  const popup = document.getElementById('popup');
+  const inner = document.getElementById('popup-inner');
+  popup.style.animation = 'slideOut 0.5s ease-in-out';
 
-      const template = document.getElementById(`popup-${contentId}-content`);
-      if (template) {
-        const clone = template.content.cloneNode(true);
-        removeIds(clone);
-        inner.appendChild(clone);
-        popup.style.animation = 'slideIn 0.5s ease-in-out';
-        popup.style.display = 'block';
-      }
+  setTimeout(() => {
+    popup.style.display = 'none';
+    inner.innerHTML = '';
+
+    // 🧼 Limpiar scroll infinito y eventos
+    if (window.__scrollStarted) {
+      window.__scrollStarted = false;
+      state.projects?.clear?.();
+      state.parallaxImages?.clear?.();
+      document
+        .querySelectorAll('.project-list .project:not(.template)')
+        .forEach((el) => el.remove());
+
+      // Eliminar eventos de desplazamiento
+      window.removeEventListener("wheel", handleWheel, { passive: false });
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("touchend", handleTouchEnd);
+      window.removeEventListener("resize", handleResize);
     }
-
-    function closePopup() {
-      const popup = document.getElementById('popup');
-      const inner = document.getElementById('popup-inner');
-      popup.style.animation = 'slideOut 0.5s ease-in-out';
-
-      setTimeout(() => {
-        popup.style.display = 'none';
-        inner.innerHTML = '';
-      }, 500);
-    }
+  }, 500);
+}
   </script>
+  <script src="script-infinite-scroll.js"></script>
 </body>
 </html>
