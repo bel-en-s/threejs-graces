@@ -10,12 +10,12 @@ const config = {
 };
 
 const projectData = [
-  { title: "Euphoria", image: "1.png", isAlternate: false },
-  { title: "Scratcher", image: "assets/img2.jpeg", isAlternate: true },
-  { title: "Ember", image: "assets/img3.jpeg", isAlternate: false },
-  { title: "Liquid Soleil", image: "assets/img4.jpeg", isAlternate: true },
-  { title: "Vacuum", image: "./assets/img5.jpeg", isAlternate: false },
-  { title: "Synthesis", image: "./assets/img6.jpeg", isAlternate: true },
+  { title: "Rauw Alejando", image: "assets/img2.jpeg", isAlternate: false },
+  { title: "Tienda Lizboa", image: "textures/1.jpg", isAlternate: true },
+  { title: "Filoza", image: "textures/1.jpg", isAlternate: false },
+  { title: "Liquid Soleil", image: "textures/1.jpg", isAlternate: true },
+  { title: "Vacuum", image: "textures/1.jpg", isAlternate: false },
+  { title: "Synthesis", image: "textures/1.jpg", isAlternate: true },
 ];
 
 const state = {
@@ -36,19 +36,31 @@ const state = {
   isScrolling: false,
 };
 
+function preloadImages(imageUrls, callback) {
+  let loaded = 0;
+  const total = imageUrls.length;
+
+  imageUrls.forEach((url) => {
+    const img = new Image();
+    img.src = url;
+    img.onload = img.onerror = () => {
+      loaded++;
+      if (loaded === total) callback();
+    };
+  });
+}
+
 const createParallaxImage = (imageElement) => {
   let bounds = null;
   let currentTranslateY = 0;
   let targetTranslateY = 0;
 
   const updateBounds = () => {
-    if (imageElement) {
-      const rect = imageElement.getBoundingClientRect();
-      bounds = {
-        top: rect.top + window.scrollY,
-        bottom: rect.bottom + window.scrollY,
-      };
-    }
+    const rect = imageElement.getBoundingClientRect();
+    bounds = {
+      top: rect.top + window.scrollY,
+      bottom: rect.bottom + window.scrollY,
+    };
   };
 
   const update = (scroll) => {
@@ -56,10 +68,7 @@ const createParallaxImage = (imageElement) => {
     const relativeScroll = -scroll - bounds.top;
     targetTranslateY = relativeScroll * 0.2;
     currentTranslateY = lerp(currentTranslateY, targetTranslateY, 0.1);
-
-    if (Math.abs(currentTranslateY - targetTranslateY) > 0.01) {
-      imageElement.style.transform = `translateY(${currentTranslateY}px) scale(1.5)`;
-    }
+    imageElement.style.transform = `translateY(${currentTranslateY}px) scale(1.5)`;
   };
 
   updateBounds();
@@ -67,9 +76,7 @@ const createParallaxImage = (imageElement) => {
 };
 
 const getProjectData = (index) => {
-  const dataIndex =
-    ((Math.abs(index) % projectData.length) + projectData.length) %
-    projectData.length;
+  const dataIndex = ((Math.abs(index) % projectData.length) + projectData.length) % projectData.length;
   return projectData[dataIndex];
 };
 
@@ -77,42 +84,56 @@ const createProjectElement = (index) => {
   if (state.projects.has(index)) return;
 
   const template = document.querySelector(".template");
+  if (!template) return console.error("Template element not found");
+
   const project = template.cloneNode(true);
-  project.style.display = "flex";
   project.classList.remove("template");
+  project.classList.add("project");
+  project.style.display = "flex";
 
-  const dataIndex =
-    ((Math.abs(index) % projectData.length) + projectData.length) %
-    projectData.length;
   const data = getProjectData(index);
-  const projectNumber = (dataIndex + 1).toString().padStart(2, "0");
+  const projectNumber = (index % projectData.length + projectData.length) % projectData.length + 1;
 
-  project.innerHTML = data.isAlternate
-    ? `<div class="side">
-         <div class="img"><img src="${data.image}" alt="${data.title}" /></div>
-       </div>
-       <div class="side">
-         <div class="title">
-           <h1>${data.title}</h1>
-           <h1>${projectNumber}</h1>
-         </div>
-       </div>`
-    : `<div class="side">
-         <div class="title">
-           <h1>${data.title}</h1>
-           <h1>${projectNumber}</h1>
-         </div>
-       </div>
-       <div class="side">
-         <div class="img"><img src="${data.image}" alt="${data.title}" /></div>
-       </div>`;
+  const sides = project.querySelectorAll(".side");
+  const imgs = project.querySelectorAll("img");
+  const titles = project.querySelectorAll("h1");
+
+  if (data.isAlternate) {
+    if (imgs[0] && titles[0] && titles[1]) {
+      imgs[0].src = data.image;
+      imgs[0].alt = data.title;
+      titles[0].textContent = data.title;
+      titles[1].textContent = String(projectNumber).padStart(2, "0");
+    }
+  } else {
+    if (imgs[0] && titles[0] && titles[1]) {
+      imgs[0].src = data.image;
+      imgs[0].alt = data.title;
+      titles[0].textContent = data.title;
+      titles[1].textContent = String(projectNumber).padStart(2, "0");
+      if (sides.length === 2) {
+        sides[0].parentNode.insertBefore(sides[1], sides[0]);
+      }
+    }
+  }
 
   project.style.transform = `translateY(${index * state.projectHeight}px)`;
-  document.querySelector(".project-list").appendChild(project);
-  state.projects.set(index, project);
+
+  const projectList = document.querySelector(".project-list");
+  if (projectList) {
+    projectList.appendChild(project);
+    state.projects.set(index, project);
+  } else {
+    console.error("Project list not found");
+    return;
+  }
 
   const img = project.querySelector("img");
   if (img) {
+    const fullPath = new URL(data.image, window.location.href).href;
+    console.log(`Cargando imagen: ${fullPath}`);
+    img.onerror = () => console.error(`❌ No se pudo cargar la imagen: ${data.image}`);
+    img.onload = () => console.log(`✅ Imagen cargada: ${data.image}`);
     state.parallaxImages.set(index, createParallaxImage(img));
   }
 };
@@ -127,20 +148,17 @@ const getCurrentIndex = () => Math.round(-state.targetY / state.projectHeight);
 
 const checkAndCreateProjects = () => {
   const currentIndex = getCurrentIndex();
-  const minNeeded = currentIndex - config.BUFFER_SIZE;
-  const maxNeeded = currentIndex + config.BUFFER_SIZE;
+  const min = currentIndex - config.BUFFER_SIZE;
+  const max = currentIndex + config.BUFFER_SIZE;
 
-  for (let i = minNeeded; i <= maxNeeded; i++) {
+  for (let i = min; i <= max; i++) {
     if (!state.projects.has(i)) {
       createProjectElement(i);
     }
   }
 
   state.projects.forEach((project, index) => {
-    if (
-      index < currentIndex - config.CLEANUP_THRESHOLD ||
-      index > currentIndex + config.CLEANUP_THRESHOLD
-    ) {
+    if (index < currentIndex - config.CLEANUP_THRESHOLD || index > currentIndex + config.CLEANUP_THRESHOLD) {
       project.remove();
       state.projects.delete(index);
       state.parallaxImages.delete(index);
@@ -149,8 +167,8 @@ const checkAndCreateProjects = () => {
 };
 
 const getClosestSnapPoint = () => {
-  const currentIndex = Math.round(-state.targetY / state.projectHeight);
-  return -currentIndex * state.projectHeight;
+  const index = Math.round(-state.targetY / state.projectHeight);
+  return -index * state.projectHeight;
 };
 
 const initiateSnap = () => {
@@ -163,11 +181,8 @@ const initiateSnap = () => {
 const updateSnap = () => {
   const elapsed = Date.now() - state.snapStartTime;
   const progress = Math.min(elapsed / config.SNAP_DURATION, 1);
-
   const t = 1 - Math.pow(1 - progress, 3);
-
   state.targetY = state.snapStartY + (state.snapTargetY - state.snapStartY) * t;
-
   if (progress >= 1) {
     state.isSnapping = false;
     state.targetY = state.snapTargetY;
@@ -176,18 +191,14 @@ const updateSnap = () => {
 
 const animate = () => {
   const now = Date.now();
-  const timeSinceLastScroll = now - state.lastScrollTime;
+  const idle = now - state.lastScrollTime;
 
-  if (!state.isSnapping && !state.isDragging && timeSinceLastScroll > 100) {
+  if (!state.isSnapping && !state.isDragging && idle > 100) {
     const snapPoint = getClosestSnapPoint();
-    if (Math.abs(state.targetY - snapPoint) > 1) {
-      initiateSnap();
-    }
+    if (Math.abs(state.targetY - snapPoint) > 1) initiateSnap();
   }
 
-  if (state.isSnapping) {
-    updateSnap();
-  }
+  if (state.isSnapping) updateSnap();
 
   if (!state.isDragging) {
     state.currentY += (state.targetY - state.currentY) * config.LERP_FACTOR;
@@ -198,11 +209,8 @@ const animate = () => {
   state.projects.forEach((project, index) => {
     const y = index * state.projectHeight + state.currentY;
     project.style.transform = `translateY(${y}px)`;
-
-    const parallaxImage = state.parallaxImages.get(index);
-    if (parallaxImage) {
-      parallaxImage.update(state.currentY);
-    }
+    const parallax = state.parallaxImages.get(index);
+    if (parallax) parallax.update(state.currentY);
   });
 
   requestAnimationFrame(animate);
@@ -212,12 +220,8 @@ const handleWheel = (e) => {
   e.preventDefault();
   state.isSnapping = false;
   state.lastScrollTime = Date.now();
-
-  const scrollDelta = e.deltaY * config.SCROLL_SPEED;
-  state.targetY -= Math.max(
-    Math.min(scrollDelta, config.MAX_VELOCITY),
-    -config.MAX_VELOCITY
-  );
+  const delta = e.deltaY * config.SCROLL_SPEED;
+  state.targetY -= Math.max(Math.min(delta, config.MAX_VELOCITY), -config.MAX_VELOCITY);
 };
 
 const handleTouchStart = (e) => {
@@ -230,8 +234,8 @@ const handleTouchStart = (e) => {
 
 const handleTouchMove = (e) => {
   if (!state.isDragging) return;
-  const deltaY = (e.touches[0].clientY - state.startY) * 1.5;
-  state.targetY = state.lastY + deltaY;
+  const delta = (e.touches[0].clientY - state.startY) * 1.5;
+  state.targetY = state.lastY + delta;
   state.lastScrollTime = Date.now();
 };
 
@@ -243,14 +247,18 @@ const handleResize = () => {
   state.projectHeight = window.innerHeight;
   state.projects.forEach((project, index) => {
     project.style.transform = `translateY(${index * state.projectHeight}px)`;
-    const parallaxImage = state.parallaxImages.get(index);
-    if (parallaxImage) {
-      parallaxImage.updateBounds();
-    }
+    const parallax = state.parallaxImages.get(index);
+    if (parallax) parallax.updateBounds();
   });
 };
 
 const initializeScroll = () => {
+  window.removeEventListener("wheel", handleWheel, { passive: false });
+  window.removeEventListener("touchstart", handleTouchStart);
+  window.removeEventListener("touchmove", handleTouchMove);
+  window.removeEventListener("touchend", handleTouchEnd);
+  window.removeEventListener("resize", handleResize);
+
   window.addEventListener("wheel", handleWheel, { passive: false });
   window.addEventListener("touchstart", handleTouchStart);
   window.addEventListener("touchmove", handleTouchMove);
@@ -258,8 +266,14 @@ const initializeScroll = () => {
   window.addEventListener("resize", handleResize);
 
   createInitialProjects();
+  window.__scrollStarted = true;
   animate();
 };
 
-// document.addEventListener("DOMContentLoaded", initializeScroll);
-window.startInfiniteScroll = initializeScroll;
+window.startInfiniteScroll = () => {
+  const urls = projectData.map(p => p.image);
+  preloadImages(urls, () => {
+    console.log("✅ Todas las imágenes precargadas.");
+    initializeScroll();
+  });
+};

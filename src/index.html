@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>belén seoane - multimedia arts</title>
+  <title>bel-en-s // el pliegue</title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
   <meta name="description" content="Multimedia artist from UNA Universidad Nacional de las Artes, servides, WebGL, 3D, Branding, Art Direction." />
   <meta name="keywords" content="ThreeJS, HTML, CSS, JavaScript, Belén SEOANE, Spanish Artist, Anderson Mancini, UNA Universidad Nacional de las Artes, servides, WebGL, 3D, Branding, Art Direction" />
-  <meta name="author" content="Anderson Mancini" />
+  <meta name="author" content="Bele" />
   <meta property="og:title" content="pliegue agencia digital" />
   <meta property="og:description" content="Multimedia artist from UNA Universidad Nacional de las Artes, servides, WebGL, 3D, Branding, Art Direction." />
   <meta property="og:image" content="https://threejs-graces.tiiny.site/static/textures/imageSocial.jpg" />
@@ -24,7 +24,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Josefin+Sans&family=Nanum+Myeongjo&display=swap" rel="stylesheet" />
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script> -->
-  <link rel="stylesheet" href="styles-infinite-scroll.css" />
+  <!-- <link rel="stylesheet" href="styles-infinite-scroll.css" /> -->
 
 </head>
 <body>
@@ -176,9 +176,19 @@ function showPopup(contentId) {
     popup.style.display = 'block';
 
     if (contentId === 'works') {
+      // 🧼 Reiniciar todo el estado por si quedó algo
+      state.projects?.clear?.();
+      state.parallaxImages?.clear?.();
       window.__scrollStarted = false;
+
+      document
+        .querySelectorAll('.project-list .project:not(.template)')
+        .forEach((el) => el.remove());
+
+      // Esperamos al siguiente frame para que el DOM esté listo
       requestAnimationFrame(() => {
-        if (document.querySelector('.project-list')) {
+        const list = document.querySelector('.project-list');
+        if (list) {
           window.startInfiniteScroll?.();
         } else {
           console.error('Project list not found in popup');
@@ -187,6 +197,7 @@ function showPopup(contentId) {
     }
   }
 }
+
 
 function closePopup() {
   const popup = document.getElementById('popup');
